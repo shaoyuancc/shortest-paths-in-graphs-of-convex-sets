@@ -177,6 +177,13 @@ class GraphOfConvexSets():
             if phi > 1 - 1e-3:
                 edge = [self.vertices.index(vertex) for vertex in self.edges[k]]
                 plt.plot(*x[edge].T, **options)
+    
+    def draw_path_from_x(self, x, **kwargs):
+        options = {'color':'g', 'marker': 'o', 'markeredgecolor': 'k', 'markerfacecolor': 'w'}
+        options.update(kwargs)
+        for i in range(len(x)-1) :
+            pts = x[i:i+2]
+            plt.plot(*pts.T, **options)
 
     def graphviz(self, vertex_labels=None, edge_labels=None):
 

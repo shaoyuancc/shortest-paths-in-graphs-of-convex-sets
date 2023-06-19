@@ -68,7 +68,7 @@ class TwoNorm(ConvexFunction):
     def _add_as_cost(self, prog, x):
 
         slack = prog.NewContinuousVariables(1)
-        self._add_perspective_constraint(self, prog, slack, 1, x)
+        self._add_perspective_constraint(prog, slack, 1, x)
         return prog.AddLinearCost(slack)
 
 class SquaredTwoNorm(ConvexFunction):
