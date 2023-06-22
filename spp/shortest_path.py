@@ -1,7 +1,6 @@
 import numpy as np
 from pydrake.all import MathematicalProgram, MosekSolver, eq
-from collections import defaultdict
-import heapq as heap
+
 class ShortestPathVariables():
 
     def __init__(self, phi, y, z, l, x=None):
@@ -168,42 +167,4 @@ class ShortestPathProblem():
         dual = None
 
         return ShortestPathSolution(cost, time, primal, dual)
-    
-    def solve_with_dijkstra(self):
-        visited = set()
-        parents_map = {}
-        pq = []
-        node_dists = defaultdict(lambda: float('inf'))
-        source = self.graph._source
-        target = self.graph._target
-
-        print(f"Source: {source}")
-        print(f"Target: {target}")
-        node_dists[source] = 0
-        heap.heappush(pq, (0, source))
-
-        while len(pq) > 0:
-            dist, node = heap.heappop(pq)
-            visited.add(node)
-
-            if node == target:
-                break
-            edges, outgoing_edge_indices = self.graph.outgoing_edges(node)
-            for edge in edges:
-                neighbor = edge[1]
-                if neighbor not in visited:
-                    new_dist = dist + 1
-                    if new_dist < node_dists[neighbor]:
-                        node_dists[neighbor] = new_dist
-                        parents_map[neighbor] = node
-                        heap.heappush(pq, (new_dist, neighbor))
-
-        path = []
-        node = target
-        while node != source:
-            path.append(node)
-            node = parents_map[node]
-        path.append(source)
-        path.reverse()
-        print(f"Path from {source} to {target}: {path}")
-        print(f"Distance: {node_dists[target]}")
+            
